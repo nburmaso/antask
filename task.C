@@ -28,10 +28,10 @@ class ATask : public AnalysisTask
 public:
   OutputObj<TH2F> hPhi{TH1F("phi", "Phi", 100, 0., 2. * M_PI, 102, -2.01, 2.01)};
   
-  TH1D* hMass = new TH1D("hMass", "; mass, GeV; N", 50, 0.5, 4);
-  TH1D* hMassReco = new TH1D("hMassReco", "; mass, GeV; N", 50, 0.5, 4);
-  TH1D* hMassReco1 = new TH1D("hMassReco1", "; mass, GeV; N", 50, 0.5, 4);
-  TH1D* hMassReco2 = new TH1D("hMassReco2", "; mass, GeV; N", 50, 0.5, 4);
+  OutputObj<TH1D> hMass{TH1D("hMass", "; mass, GeV; N", 50, 0.5, 4)};
+  OutputObj<TH1D> hMassReco{TH1D("hMassReco", "; mass, GeV; N", 50, 0.5, 4)};
+  OutputObj<TH1D> hMassReco1 = new TH1D("hMassReco1", "; mass, GeV; N", 50, 0.5, 4);
+  OutputObj<TH1D> hMassReco2 = new TH1D("hMassReco2", "; mass, GeV; N", 50, 0.5, 4);
 
   void process(aod:Tracks const& tracks)
   {
