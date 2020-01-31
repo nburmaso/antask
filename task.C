@@ -1,5 +1,6 @@
 #include "Framework/runDataProcessing.h"
 #include "Framework/AnalysisTask.h"
+#include "AODReaderHelper.h"
 
 #include <SimulationDataFormat/MCTrack.h>
 #include <TFile.h>
