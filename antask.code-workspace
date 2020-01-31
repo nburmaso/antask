@@ -2,11 +2,15 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "/home/nburmaso/alice/O2/Framework"
 		}
 	],
 	"settings": {
 		"files.associations": {
-			"checkGen.C": "cpp"
+			"checkGen.C": "cpp",
+			"task.C": "cpp"
 		}
 	}
 }
