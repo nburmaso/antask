@@ -10,7 +10,13 @@
 	"settings": {
 		"files.associations": {
 			"checkGen.C": "cpp",
-			"task.C": "cpp"
+			"task.C": "cpp",
+			"df017_vecOpsHEP.C": "cpp",
+			"style_parser": "cpp",
+			"string": "cpp",
+			"*.icc": "cpp",
+			"filesystem": "cpp",
+			"stdexcept": "cpp"
 		}
 	}
 }
