@@ -1,5 +1,6 @@
 #include "Framework/runDataProcessing.h"
 #include "Framework/AnalysisTask.h"
+#include "Framework/AnalysisDataModel.h"
 
 #include <SimulationDataFormat/MCTrack.h>
 #include <TFile.h>
@@ -8,8 +9,6 @@
 #include <vector>
 #include "TDatabasePDG.h"
 #include "TROOT.h"
-#include "TStyle.h"
-#include "TCanvas.h"
 #include <SimulationDataFormat/MCCompLabel.h>
 #include "ReconstructionDataFormats/TrackTPCITS.h"
 #include "TOFSimulation/Detector.h"
@@ -25,22 +24,15 @@ using namespace o2::framework;
 
 #define PI 3.14159265
 
-class RecoEffAnTask: public AnalysisTask {
-public:
-  OutputObj<TFile> fig{("eff.root","RECREATE")};
+struct ATask{
+  TDatabasePDG *pdg = new TDatabasePDG();
 
-  void process() {
+  void run(ProcessingContext& pc) {
     // mc
     TFile f("o2sim.root");
     TTree* tree = (TTree*) f.Get("o2sim");
-    vector<MCTrack>* mctracks = nullptr;
-    tree->SetBranchAddress("MCTrack",&mctracks);
-
-    // tof clusters
-    TFile fTof("tofclusters.root");
-    TTree* treeTof = (TTree*) fTof.Get("o2sim");
-    std::vector<o2::tof::Cluster>* clusters = nullptr;
-    treeTof->SetBranchAddress("TOFCluster",&clusters);
+    std::vector<MCTrack>* mctracks;
+    tree->SetBranchAddress("MCTrack", &mctracks);
 
     // tof match
     TFile tofMatch("o2match_tof.root");
@@ -65,8 +57,6 @@ public:
     hMassReco->Sumw2();
     hMassReco1->Sumw2();
     hMassReco2->Sumw2();
-
-    TDatabasePDG *pdg = new TDatabasePDG();
 
     std::vector<int> mcID;
     std::vector<int> recoInd;
@@ -183,43 +173,19 @@ public:
       invM = 0.0;
     } // mc events
 
-    //TFile fig("eff.root","RECREATE");
+    TFile fig("eff.root","recreate");
     hMass->Write();
     hMassReco->Write();
     hMassReco1->Write();
     hMassReco2->Write();
     fig.Write();
+
+    pc.services().get<ControlService>().readyToQuit(QuitRequest::Me);
   }
 };
 
-WorkflowSpec defineDataProcessing(ConfigContext const&)
-{
-  return WorkflowSpec {
-    EffAnlysis<RecoEffAnTask>("EffAnalysis")
+WorkflowSpec defineDataProcessing(ConfigContext const&) {
+  return WorkflowSpec{
+    adaptAnalysisTask<ATask>("efficiency-analysis")
   };
 }
-
-// #include "Framework/runDataProcessing.h"
-// #include "Framework/AnalysisTask.h"
-// #include <TH1F.h>
-// using namespace o2;
-// using namespace o2:framework;
-// class ATask : public AnalysisTask
-// {
-// public:
-//  OutputObj<TH2F> hPhi{TH1F("phi", "Phi", 100, 0., 2. * M_PI, 102, -2.01, 2.01)};
-
-//  void process(aod:Tracks const& tracks)
-//  {
-//  for (auto& track : tracks) {
-//  float phi = asin(track.snp()) + track.alpha() + M_PI;
-//  hPhi-Fill(phi);
-//  }
-//  }
-// };
-// WorkflowSpec defineDataProcessing(ConfigContext const&)
-// {
-//  return WorkflowSpec{
-//  adaptAnalysisTask<ATask>("mySimpleTrackAnalysis", 0)
-//  };
-// }

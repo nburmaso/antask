@@ -16,7 +16,9 @@
 			"string": "cpp",
 			"*.icc": "cpp",
 			"filesystem": "cpp",
-			"stdexcept": "cpp"
+			"stdexcept": "cpp",
+			"antask.C": "cpp",
+			"test.C": "cpp"
 		}
 	}
 }

@@ -1,12 +1,9 @@
-#ifndef ANTASK_H
-#define ANTASK_H
-
 #include "Framework/runDataProcessing.h"
 #include "Framework/AnalysisTask.h"
 #include <TH1F.h>
 
 using namespace o2;
-using namespace o2:framework;
+using namespace o2::framework;
 
 class ATask : public AnalysisTask {
 
@@ -26,5 +23,3 @@ WorkflowSpec defineDataProcessing(ConfigContext const&) {
     adaptAnalysisTask<ATask>("mySimpleTrackAnalysis", 0)
   };
 }
-
-#endif

@@ -27,8 +27,6 @@ using namespace o2::framework;
 
 class RecoEffAnTask: public AnalysisTask {
 public:
-  OutputObj<TFile> fig{("eff.root","RECREATE")};
-
   void process() {
     // mc
     TFile f("o2sim.root");
@@ -183,7 +181,7 @@ public:
       invM = 0.0;
     } // mc events
 
-    //TFile fig("eff.root","RECREATE");
+    TFile fig("eff.root","RECREATE");
     hMass->Write();
     hMassReco->Write();
     hMassReco1->Write();
